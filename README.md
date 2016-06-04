@@ -22,7 +22,7 @@ objc_autoreleasePoolPoor(context);
 ```
 这两个方法分别是对**AutoreleasePoolPage**静态方法的封装，每一个自动释放池都是由一系列的 AutoreleasePoolPage 组成的，并且每一个 AutoreleasePoolPage 的大小都是 4096 字节，以双向链表的形式连接起来。
 **objc_autoreleasePoolPush**调用时，runtime向当前的**AutoreleasePoolPage**中加入一个哨兵对象，值为0
-![Alt text](./1460036587111.png)
+![Alt text](./autorelease.png)
 
 **objc_autoreleasePoolPush**的返回值是这个哨兵对象的地址，被**objc_autoreleasePoolPop**(哨兵对象地址)作为参数：
 1. 根据传入哨兵对象地址找到哨兵对象所处的page
