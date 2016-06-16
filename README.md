@@ -4,3 +4,4 @@
 * [runloop](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/runloop.md)
 * [ARC](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/arc.md)
 * [Strong 和weak的底层了解吗？](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/Strong和weak的底层了解吗.md)
+* [iOS动态更新](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/jspatch/iOS动态更新.md)
