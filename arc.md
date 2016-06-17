@@ -5,7 +5,7 @@
 
 ### `ARC`有效时，`autorealease`
 
-1、当使用`alloc/new/copy/mutableCopy`开始的方法进行初始化时，会生成并持有对象，那么对于其他情况，例如
+1、当使用`alloc/new/copy/mutableCopy`开始的方法进行初始化时，会生成并持有对象(也就是不需要pool管理，系统会自动的帮他在合适位置release)，那么对于其他情况，例如
 	
 	id obj = [NSMutableArray array];
 
