@@ -6,3 +6,9 @@
 * [Strong 和weak的底层了解吗？](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/Strong和weak的底层了解吗.md)
 * [iOS动态更新](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/jspatch/iOS动态更新.md)
 * [RAC学习](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/RAC学习.md)
+* [架构学习](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0.md)
+
+
+### 专题学习
+
+[缓存](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/%E7%BC%93%E5%AD%98%EF%BC%886%E6%9C%8819%EF%BC%8D6%E6%9C%8825%EF%BC%89.md)
