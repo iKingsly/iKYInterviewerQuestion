@@ -10,6 +10,5 @@
 * [alloc, retain, dealloc](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/Alloc/alloc,retain,dealloc.md)
 * [iOS 应用生命周期](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/ios_%E5%BA%94%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.md)
 ### 专题学习
-
 * [缓存（6月19－6月25）](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/%E7%BC%93%E5%AD%98%EF%BC%886%E6%9C%8819%EF%BC%8D6%E6%9C%8825%EF%BC%89.md)
 * [ARC 与 MVVM]()
