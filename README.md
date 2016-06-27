@@ -7,7 +7,7 @@
 * [iOS动态更新](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/jspatch/iOS动态更新.md)
 * [RAC学习](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/RAC学习.md)
 * [架构学习](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0.md)
-
+* [alloc, retain, dealloc](https://github.com/iKingsly/iKYInterviewerQuestion/blob/master/Alloc/alloc,retain,dealloc.md)
 
 ### 专题学习
 
