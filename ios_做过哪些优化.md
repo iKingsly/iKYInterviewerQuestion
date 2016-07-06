@@ -2,8 +2,6 @@
 
 
  
-###  iOS 安装包优化
-
 * 资源优化：对资源文件下手，压缩图片/音频，去除不必要的资源
 * 编译优化：
 	* `release`版应该选择`Fastest`, `Smalllest`，这个选项会开启那些不增加代码大小的全部优化（新版`Xcode`默认）
@@ -26,8 +24,12 @@
 * `view` 设置为不透明，避免图层混合，消耗GPU资源
 * 圆角、阴影、光栅化，重写`DrawRect`这些导致离屏渲染的情况，都应该尽量避免
 * 层次过多的视图，可以考虑使用 `Frame `布局， `autolayout` 这时候性能明显低于 `Frame `布局
-* `I/O`不要在主线程
-
+* 合理的线程，`I/O`不要在主线程
+* 预处理和延迟加载：对于可视化的内容，尽量提前加载，而对于优先级比较低的任务，可以延迟加载，这样可以提高用户体验
+* 使用正确的 API
+	* 了解` imageNamed:` 与 `imageWithContentsOfFile:`的差异(`imageNamed:` 适用于会重复加载的小图片，因为系统会自动缓存加载的图片，`imageWithContentsOfFile:` 仅加载图片) 
+	* 选择合适的容器：例如数组就是根据`index`查找很快，插入删除慢，而对于字典，用键查找很快
+	* 避免日期格式转换：`NSDateFormatter`是很耗时的，比较推荐的方式是使用 `C `来搞或者缓存 `NSDateFormatter` 的结果方式
 
 * `TableView` 优化
 
@@ -36,6 +38,8 @@
 	* 以前看到过一个第三方框架：使用`runloop`，页面处于空闲状态时执行计算，正在滑动列表时显然不应该执行计算任务影响滑动体验，当 `UI` 没在滑动时，默认的 `Mode` 是 `NSDefaultRunLoopMode`，当用户正在滑动 `UIScrollView` 时，`RunLoop` 将切换到 `UITrackingRunLoopMode` 接受滑动手势和处理滑动事件（包括减速和弹簧效果），此时，其他 `Mode `（除 `NSRunLoopCommonModes` 这个组合 `Mode`）下的事件将全部暂停执行，来保证滑动事件的优先处理
 	* `cell` 圆角，避免离屏渲染
 
+
+### 对于 卡顿检测 应该算是另一个方向的题目，算是工具使用和runloop方向的吧
 
 ## 资料
 
