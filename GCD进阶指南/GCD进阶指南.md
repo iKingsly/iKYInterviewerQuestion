@@ -1,3 +1,4 @@
+#GCD进阶指南
 #1. 并行和并发
 简单来说，若说两个任务A和B并发执行，则表示任务A和任务B在同一时间段里被执行（更多的可能是二者交替执行）；若说任务A和B并行执行，则表示任务A和任务B在同时被执行（这要求计算机有多个运算器）；
 一句话：并行要求并发，但并发并不能保证并行。
@@ -96,7 +97,10 @@ GCD dispatch queue 有自己的autorelease pool来管理内存对象，但是不
 ##7.2 信号量的创建和使用
 1. 创建 `dispatch_semaphore_create`
 
-  ```  /*!
+ 
+
+```
+ /*!
  * @function dispatch_semaphore_create
    使用信号量来处理多个线程之间竞争资源的情况特别合适，在value等于0的时候进行等待，在value大于0的时候运行
  *
@@ -110,10 +114,12 @@ __OSX_AVAILABLE_STARTING(__MAC_10_6,__IPHONE_4_0)
 DISPATCH_EXPORT DISPATCH_MALLOC DISPATCH_RETURNS_RETAINED DISPATCH_WARN_RESULT
 DISPATCH_NOTHROW
 dispatch_semaphore_t
-dispatch_semaphore_create(long value);```
+dispatch_semaphore_create(long value);
+```
 
 2. 等待 `dispatch_semaphore_wait`
-  ```/*!
+```
+  /*!
  * @function dispatch_semaphore_wait
  *
  * @abstract
@@ -137,7 +143,7 @@ dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout);
 ```
 
 3. 产生 `dispatch_semaphore_signal`
-  ```
+```
   /*!
  * @function dispatch_semaphore_signal
  *
@@ -158,9 +164,10 @@ dispatch_semaphore_signal(dispatch_semaphore_t dsema);
 ##注意
 `dispatch_semaphore_signal` 和 `dispatch_semaphore_wait` 必须成对出现，并且在 `dispatch_release(aSemaphore)`;之前，`aSemaphore` 的value需要恢复之前的数值，不然会导致 `EXC_BAD_INSTRUCTION`
 在ARC情况下不需要使用dispatch_release来进行释放，有系统统一管理
-
+```
 ##7.3 `Dispatch Semaphore` 的应用
 ###7.3.1 控制并发线程数量
+
 ```
 /*
  *
@@ -192,6 +199,7 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
     });
 }
 ```
+
 
 
 ###7.3.2 为 NSURLSession 添加同步方法 在数据请求完成后才会返回
@@ -526,7 +534,8 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 
 #10 dispatch_barrier 栅栏
 `dispatch_barrier` 最大的作用就是用来做**阻塞**，阻塞当前的线程，做到一个**承上启下**的作用，只有在它之前的任务全部执行完之后，它和它之后的任务才能进行。可以理解为成语**一夫当关，万夫莫开**，只有在它面前的任务“死掉了”（即执行完了）后面的任务才能继续进行下去。
-![Dispatch-Barrier.png](resources/8E3DEBC549E48F6124D554C5D518DB0D.png)
+![barrier](./1467981139516.png)
+
 
 ##10.1 使用注意
 使用dispatch_barrier 是用来阻断并行任务不能确定先后任务完成的问题，**它必须使用在自定义并行队列上**，否则没有意义，为什么说没意义呢，我们接下来分析为什么没意义：
@@ -579,4 +588,5 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 [《GCD实践之二 -- 多用GCD，少用performSelector系列方法》](http://zhangbuhuai.com/using-gcd-part-2/)
 
 [Parse源码浅析系列（一）---Parse的底层多线程处理思路：GCD高级用法](https://github.com/ChenYilong/ParseSourceCodeStudy/blob/master/01_Parse的多线程处理思路/Parse的底层多线程处理思路.md)
+
 
