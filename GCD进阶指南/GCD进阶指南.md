@@ -99,6 +99,7 @@ GCD dispatch queue 有自己的autorelease pool来管理内存对象，但是不
 
  
 
+
 ```
  /*!
  * @function dispatch_semaphore_create
@@ -117,7 +118,9 @@ dispatch_semaphore_t
 dispatch_semaphore_create(long value);
 ```
 
+
 2. 等待 `dispatch_semaphore_wait`
+
 ```
   /*!
  * @function dispatch_semaphore_wait
@@ -142,9 +145,12 @@ long
 dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout);
 ```
 
+
 3. 产生 `dispatch_semaphore_signal`
+
+
 ```
-  /*!
+/*!
  * @function dispatch_semaphore_signal
  *
  * @abstract
@@ -165,8 +171,11 @@ dispatch_semaphore_signal(dispatch_semaphore_t dsema);
 `dispatch_semaphore_signal` 和 `dispatch_semaphore_wait` 必须成对出现，并且在 `dispatch_release(aSemaphore)`;之前，`aSemaphore` 的value需要恢复之前的数值，不然会导致 `EXC_BAD_INSTRUCTION`
 在ARC情况下不需要使用dispatch_release来进行释放，有系统统一管理
 ```
+
+
 ##7.3 `Dispatch Semaphore` 的应用
 ###7.3.1 控制并发线程数量
+
 
 ```
 /*
@@ -202,7 +211,9 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
 
 
 
+
 ###7.3.2 为 NSURLSession 添加同步方法 在数据请求完成后才会返回
+
 
 ```
 + (NSData *)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse *__autoreleasing *)response error:(NSError *__autoreleasing *)error {
@@ -227,6 +238,7 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
 }
 ```
 
+
 但是也要思考下为什么 Apple 取消了同步方法：同步方法的风险远远超过受益。
 
 要注意：
@@ -236,53 +248,57 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
 风险如下所示：
 
 ###7.3.3 加锁 
-阻塞线程，知道value>1 
+阻塞线程，直到value>1 
+
 ```
-    lock = dispatch_semaphore_create(1);
-    
-    dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
-    
-    // 先从缓存中尝试获取
-    _YYModelMeta *meta = CFDictionaryGetValue(cache, (__bridge const void *)(cls));
-    dispatch_semaphore_signal(lock);
+lock = dispatch_semaphore_create(1);
+
+dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+
+// 先从缓存中尝试获取
+_YYModelMeta *meta = CFDictionaryGetValue(cache, (__bridge const void *)(cls));
+dispatch_semaphore_signal(lock);
 ```
 
 #8. CGD Group的实践
 ##8.1 用group wait来等待queue的一组任务
 如果要等待queue中的一系列操作完成后再去执行一个相应的任务，除了用barrier之外,我们也可以通过group来进行处理，dispatch group wait会阻塞当前的线程，直到group中的任务完成才会停止阻塞，这样我们可以达到一个目的，直到前面的任务完成了，才执行后面的代码
 
-```
-    dispatch_queue_t queue = dispatch_queue_create("abc", DISPATCH_QUEUE_CONCURRENT);
 
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_async(group, queue,^{
-        NSLog(@"1");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        NSLog(@"2");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        
-        NSLog(@"3");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        sleep(5);
-        NSLog(@"4");
-    });
-    
-    // 开启一个异步队列来等待
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-        dispatch_async(queue, ^{
-            NSLog(@"done");
-        });
-    });
-    
-    NSLog(@"主线程");
 ```
+dispatch_queue_t queue = dispatch_queue_create("abc", DISPATCH_QUEUE_CONCURRENT);
+
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, queue,^{
+    NSLog(@"1");
+});
+
+dispatch_group_async(group, queue, ^{
+    NSLog(@"2");
+});
+
+dispatch_group_async(group, queue, ^{
+    
+    NSLog(@"3");
+});
+
+dispatch_group_async(group, queue, ^{
+    sleep(5);
+    NSLog(@"4");
+});
+
+// 开启一个异步队列来等待
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_async(queue, ^{
+        NSLog(@"done");
+    });
+});
+
+NSLog(@"主线程");
+```
+
+
 打印结果：
 ```
 2016-07-08 15:12:45.188 dispatch_source[45653:1777587] 3
@@ -294,36 +310,41 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
 ```
 ##8.2 用group notify来实现等待queue的一组任务
 用 `dispatch_group_notify`方法可以等待group中的任务，notify中的任务在原来group中的任务执行结束前不会执行
-```
-    dispatch_queue_t queue = dispatch_queue_create("abc", DISPATCH_QUEUE_CONCURRENT);
-    
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_async(group, queue,^{
-        NSLog(@"1");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        NSLog(@"2");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        
-        NSLog(@"3");
-    });
-    
-    dispatch_group_async(group, queue, ^{
-        sleep(5);
-        NSLog(@"4");
-    });
-    
-    // 等待group中的任务执行完成
-    dispatch_group_notify(group, queue, ^{
-        NSLog(@"done");
-    });
 
-    NSLog(@"主线程");
 ```
+dispatch_queue_t queue = dispatch_queue_create("abc", DISPATCH_QUEUE_CONCURRENT);
+
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, queue,^{
+    NSLog(@"1");
+});
+
+dispatch_group_async(group, queue, ^{
+    NSLog(@"2");
+});
+
+dispatch_group_async(group, queue, ^{
+    
+    NSLog(@"3");
+});
+
+dispatch_group_async(group, queue, ^{
+    sleep(5);
+    NSLog(@"4");
+});
+
+// 等待group中的任务执行完成
+dispatch_group_notify(group, queue, ^{
+    NSLog(@"done");
+});
+
+NSLog(@"主线程");
+```
+
+
 打印结果
+
+
 ```
 2016-07-08 15:25:04.207 dispatch_source[45904:1789795] 3
 2016-07-08 15:25:04.207 dispatch_source[45904:1789794] 1
@@ -333,8 +354,10 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
 2016-07-08 15:25:09.212 dispatch_source[45904:1789798] done
 ```
 
+
 ##8.3 手动进入group
 `dispatch_group_enter` 手动通知 Dispatch Group 任务已经开始。你必须保证 `dispatch_group_enter` 和 `dispatch_group_leave` 成对出现，否则你可能会遇到诡异的崩溃问题。
+
 ```
   // 进入group
   dispatch_group_enter(group);
@@ -343,6 +366,7 @@ void dispatch_async_limit(dispatch_queue_t queue,NSUInteger limitSemaphoreCount,
   // 离开group
   dispatch_group_leave(group)
 ```
+
 ##8.4 应用例子
 1. 多线程下载9张小图片，然后在都下载好后将9张小图片合成一个大图片
 2. 监测多个网络请求的完成
@@ -439,8 +463,9 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 
 所以我们可以使用 `Dispatch Source` 的 `DISPATCH_SOURCE_TYPE_TIMER` 来实现这个效果
 
+
 ```
--(void) startGCDTimer{
+- (void) startGCDTimer{
     NSTimeInterval period = 1.0; //设置时间间隔
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
      _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
@@ -472,8 +497,11 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
     }
 }
 ```
+
+
 ###9.6.3 监控文件系统对象
 设置`DISPATCH_SOURCE_TYPE_VNODE` 类型的Dispatch Source，可以中这个 Source 中接收文件删除、写入、重命名等通知。
+
 ```
     int fd = open(filename, O_EVTONLY);
     if (fd == -1)
@@ -505,7 +533,8 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 ```
 
 ###9.6.4 监测进程的变化
-进程 dispatch source 可以监控特定进程的行为,并适当地响应。父进程可以 使用 dispatch source 来监控自己创建的所有子进程,例如监控子进程的死亡;类 似地,子进程也可以使用 dispatch source 来监控父进程,例如在父进程退出时自 己也退出。
+进程 dispatch source 可以监控特定进程的行为,并适当地响应。父进程可以 使用 dispatch source 来监控自己创建的所有子进程,例如监控子进程的死亡;类似地,子进程也可以使用 dispatch source 来监控父进程,例如在父进程退出时自 己也退出。
+
 ```
     dispatch_queue_t queue = dispatch_get_main_queue();
     
@@ -545,7 +574,9 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 ##10.2 可写对象的写入安全问题
 系统中提供的可变对象都是线程不安全的，也就是在一个线程进行写入数据的时候，不允许其他线程访问，无论是读或者是写都是不允许的。
 
+
 ##10.2.1 使用dispatch_barrier来实现写入安全
+
 ```
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dispatch_queue_t queue = dispatch_queue_create("iKingsly", DISPATCH_QUEUE_CONCURRENT);
@@ -562,7 +593,9 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
         }
     });
 ```
+
 ##10.2.2 使用信号量来处理读写线程安全问题
+
 ```
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dispatch_queue_t queue = dispatch_queue_create("iKingsly", DISPATCH_QUEUE_CONCURRENT);
@@ -588,5 +621,7 @@ Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时
 [《GCD实践之二 -- 多用GCD，少用performSelector系列方法》](http://zhangbuhuai.com/using-gcd-part-2/)
 
 [Parse源码浅析系列（一）---Parse的底层多线程处理思路：GCD高级用法](https://github.com/ChenYilong/ParseSourceCodeStudy/blob/master/01_Parse的多线程处理思路/Parse的底层多线程处理思路.md)
+
+
 
 
