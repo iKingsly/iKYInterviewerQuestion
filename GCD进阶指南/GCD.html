@@ -1,0 +1,1133 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="renderer" content="webkit"/>
+    <title>1. GCD 进阶宝典</title>
+    <link rel="stylesheet" href="data:text/css;base64,CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyIHsKICAgICAgICB3aWR0aDo4cHg7CiAgICAgICAgbWFyZ2luOjAgMXB4OwogICAgICAgIGJhY2tncm91bmQ6ICNmZGZkZmQ7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyOmhvcml6b250YWx7CiAgICAgICAgaGVpZ2h0OiA4cHg7CiAgICB9CgogICAgOjotd2Via2l0LXNjcm9sbGJhci1idXR0b257CiAgICAgICAgaGVpZ2h0OiAwOwogICAgfQoKICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2sgewogICAgICAgIGJvcmRlci1yYWRpdXM6IDRweDsKICAgIH0KICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2stcGllY2UgewogICAgICAgIGJhY2tncm91bmQtY29sb3I6ICNmZGZkZmQ7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4OwogICAgfQogICAgOjotd2Via2l0LXNjcm9sbGJhci10aHVtYiB7CiAgICAgICAgd2lkdGg6OHB4OwogICAgICAgIG1hcmdpbjogMCAxcHg7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4OwogICAgICAgIGJhY2tncm91bmQ6ICNjNGM0YzQ7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyLXRodW1iOmhvdmVyIHsKICAgICAgICBiYWNrZ3JvdW5kOiAjOTA5MDkwOwogICAgfQoKCgoKICAgIGJvZHkgewogICAgICAgIGJhY2tncm91bmQ6ICNmZmZmZmY7CiAgICAgICAgZm9udC1zaXplOiAxNHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OjIuMTAyNTsKICAgICAgICBmb250LWZhbWlseTogIk1lbmxvIiwgIkFuZGFsZSBNb25vIiwgbW9ub3NwYWNlLCAiTWljcm9zb2Z0IFlhaGVpIiwgc2Fucy1zZXJpZjs7CiAgICAgICAgZm9udC13ZWlnaHQ6IG5vcm1hbDsKICAgICAgICBjb2xvcjogIzNjM2MzYzsKICAgICAgICBwYWRkaW5nOiAwIDM4cHg7CiAgICAgICAgbWF4LXdpZHRoOiA4MjBweDsKICAgICAgICBtYXJnaW46IDAgYXV0bzsKICAgICAgICAtd2Via2l0LXRleHQtc2l6ZS1hZGp1c3Q6IG5vbmU7CiAgICAgICAgd29yZC13cmFwOmJyZWFrLXdvcmQ7CgogICAgICAgIG92ZXJmbG93LXg6IGhpZGRlbjsKICAgICAgICB0ZXh0LXJlbmRlcmluZzogb3B0aW1pemVMZWdpYmlsaXR5OwogICAgfQoKICAgIGJyewogICAgICAgIGxpbmUtaGVpZ2h0OiAyLjEwMjU7CiAgICB9CgoKCiAgICBAbWVkaWEgKG1heC13aWR0aDogNjAwcHgpIHsKICAgICAgICBib2R5ewogICAgICAgICAgICBwYWRkaW5nOiAwIDMwcHg7CiAgICAgICAgfQogICAgfQoKICAgIEBtZWRpYSAobWF4LXdpZHRoOiA0ODBweCkgewogICAgICAgIGJvZHl7CiAgICAgICAgICAgIHBhZGRpbmc6IDAgMjBweDsKICAgICAgICB9CiAgICB9CgogICAgLmdpc3R7CiAgICAgICAgd29yZC1icmVhazogbm9ybWFsOwogICAgfQoKICAgIC5wb3N0ewogICAgICAgIG1hcmdpbi10b3A6IDEwcHg7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogNTBweDsKICAgICAgICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgICB9CgoKCiAgICBpbWd7CiAgICAgICAgbWF4LXdpZHRoOiA5OCU7CiAgICAgICAgbWFyZ2luOiAwLjhlbSBhdXRvIDAuOGVtIGF1dG87CiAgICAgICAgYm9yZGVyLXJhZGl1czogNXB4OwogICAgfQoKICAgIGgxIGltZywgaDIgaW1nLCBoMyBpbWcsIGg0IGltZywgaDUgaW1nLCBoNiBpbWd7CiAgICAgICAgbWFyZ2luOiBhdXRvOwogICAgfQoKICAgIC54Ml9pbWFnZXsKICAgICAgICB6b29tOiA1MCU7CiAgICB9CgogICAgLngzX2ltYWdlewogICAgICAgIHpvb206IDMzLjMzJTsKICAgIH0KCiAgICAueDRfaW1hZ2V7CiAgICAgICAgem9vbTogMjUlOwogICAgfQoKCiAgICBwIGltZ3sKICAgICAgICBtYXJnaW46IDAgYXV0bzsKICAgIH0KCiAgICBwewogICAgICAgIHdvcmQtd3JhcDpicmVhay13b3JkOwogICAgICAgIG92ZXJmbG93OmhpZGRlbjsKICAgICAgICBtYXJnaW46IDEuNWVtIDA7CiAgICB9CgogICAgbGkgcHsKICAgICAgICBsaW5lLWhlaWdodDogMS44ODU7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIC5wX3BhcnQgewogICAgICAgIG1hcmdpbjogMTBweCAwOwogICAgfQoKICAgIC5wX3BhcnQgcHsKICAgICAgICBtYXJnaW46IDAgMCAwLjZlbSAwOwogICAgfQoKICAgIC8qIHRleHQgaW5kZW50IGZvciBjaGluZXNlIHN0YXJ0cyovCiAgICAvKmgyLCBoMywgaDQsIGg1LCBoNiwgLnBfcGFydCBwLCAudG9kb19pdGVtLCBwewogICAgICAgIHRleHQtaW5kZW50OiAwcHg7CiAgICB9Ki8KICAgIHRhYmxlLCBwcmUsIHN2ZywgLmNvZGVoaWxpdGV0YWJsZXsKICAgICAgICBtYXJnaW4tbGVmdDogMHB4OwogICAgICAgIG1hcmdpbi1yaWdodDogMHB4OwogICAgfQoKICAgIC5jb2RlaGlsaXRldGFibGUgcHJlewogICAgICAgIG1hcmdpbi1sZWZ0OiAwOwogICAgICAgIG1hcmdpbi1yaWdodDogMDsKCiAgICB9CgogICAgLmNvZGVoaWxpdGV0YWJsZSAuY29kZWhpbGl0ZSBwcmV7CiAgICAgICAgYm9yZGVyLWxlZnQ6IG5vbmU7CiAgICB9CgogICAgLyogdGV4dCBpbmRlbnQgZm9yIGNoaW5lc2UgZW5kcyovCgoKICAgIGJsb2NrcXVvdGUgLnBfcGFydCBwLCBsaSAucF9wYXJ0IHB7CiAgICAgICAgdGV4dC1pbmRlbnQ6IDAgIWltcG9ydGFudDsKICAgIH0KCgogICAgaHJ7CiAgICAgICAgbWFyZ2luOiAzOHB4IDA7CiAgICAgICAgYm9yZGVyOiBub25lOwogICAgICAgIGJvcmRlci1ib3R0b206IDFweCBkYXNoZWQgI2UzZTNlMzsKICAgICAgICBjb2xvcjogI2UzZTNlMzsKICAgICAgICBoZWlnaHQ6IDFweDsKICAgICAgICBsaW5lLWhlaWdodDoxcHg7CiAgICAgICAgZm9udC1zaXplOjFweDsKICAgICAgICBvdmVyZmxvdzogaGlkZGVuOwogICAgfQoKCiAgICBoMXsKICAgICAgICBjb2xvcjogIzMzMzMzMzsKICAgICAgICBmb250LXNpemU6IDJlbTsKICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0OwogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIGxpbmUtaGVpZ2h0OiAxLjZlbTsKICAgICAgICBtYXJnaW4tdG9wOiAwLjhlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjZlbTsKICAgIH0KCiAgICBoMSwgaDIsIGgzewogICAgICAgIGNvbG9yOiAjMzMzMzMzOwogICAgfQoKICAgIGg0ewogICAgICAgIGNvbG9yOiAjMzMzMzMzOwogICAgfQoKCiAgICBoMiwgaDN7CiAgICAgICAgbGluZS1oZWlnaHQ6IDEuNWVtOwogICAgICAgIG1hcmdpbi10b3A6IDEuNWVtOwogICAgICAgIG1hcmdpbi1ib3R0b206IDAuOGVtOwogICAgfQoKICAgIGgyIHsKICAgICAgICBmb250LXNpemU6IDEuNjVlbTsKICAgIH0KCiAgICBoMyB7CiAgICAgICAgZm9udC1zaXplOiAxLjM1ZW0KICAgIH0KCgoKICAgIG9sIHsKICAgICAgICBtYXJnaW46IDA7CiAgICB9CgogICAgdWx7CiAgICAgICAgcGFkZGluZzogNXB4IDM4cHg7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHVsIGxpLCBsaXsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KCiAgICB1bCBwLCBvbCBwewogICAgICAgIG92ZXJmbG93OiB2aXNpYmxlOwogICAgfQoKCiAgICBibG9ja3F1b3RlIHsKICAgICAgICAtbW96LWJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgICAgICAgYm94LXNpemluZzogYm9yZGVyLWJveDsKICAgICAgICBtYXJnaW46IDEuNmVtIDA7CiAgICAgICAgcGFkZGluZzogMCAwIDAgMS4yZW07CiAgICAgICAgYm9yZGVyLWxlZnQ6IDAuNGVtIHNvbGlkICNkZGRkZGQ7CiAgICAgICAgY29sb3I6ICM4ODg4ODg7CiAgICAgICAgbWluLWhlaWdodDoyMHB4OwogICAgfQoKCiAgICBibG9ja3F1b3RlIHAgewogICAgICAgIG1hcmdpbjogMC44ZW0gMDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNwYW4ubWRfbGluZSB7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yNWVtOwogICAgICAgIG1hcmdpbi10b3A6IDAuMjVlbTsKICAgIH0KCiAgICBibG9ja3F1b3RlIHVsewogICAgICAgIHBhZGRpbmc6IDAgMTVweDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNtYWxsIHsKICAgICAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7CiAgICAgICAgbWFyZ2luOiAwLjhlbSAwIDAuOGVtIDEuNWVtOwogICAgICAgIGZvbnQtc2l6ZTogMC45ZW07CiAgICAgICAgY29sb3I6ICNjY2M7CiAgICB9CgoKCiAgICB0YWJsZSB7CiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CiAgICAgICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKICAgICAgICBib3JkZXItc3BhY2luZzogMDsKICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZDlkOWQ5OwogICAgICAgIGJvcmRlci1sZWZ0OiAwOwogICAgICAgIG1hcmdpbi10b3A6IDIwcHg7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMjBweDsKICAgIH0KCgogICAgdGgsIHRkIHsKICAgICAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkICNkOWQ5ZDk7CiAgICAgICAgcGFkZGluZzogOHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OiAyMHB4OwogICAgICAgIHRleHQtYWxpZ246IGxlZnQ7CiAgICAgICAgdmVydGljYWwtYWxpZ246IHRvcDsKICAgICAgICBib3JkZXItdG9wOiAxcHggc29saWQgI2Q5ZDlkOTsKICAgIH0KCgoKCiAgICBjb2RlewogICAgICAgIGJhY2tncm91bmQ6ICNmNWY1ZjU7CiAgICAgICAgcGFkZGluZzogMCA1cHg7CiAgICAgICAgbWFyZ2luOiAwIDJweDsKICAgIH0KCiAgICBwcmV7CiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjsKICAgICAgICBtYXJnaW4tdG9wOiAxLjJlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAxLjJlbTsKICAgICAgICBwYWRkaW5nOiAxNXB4IDEwcHg7CiAgICAgICAgZGlzcGxheTogYmxvY2s7CiAgICAgICAgb3ZlcmZsb3c6IGF1dG87CiAgICAgICAgYmFja2dyb3VuZDogI2Y3ZjdmNzsKICAgICAgICBmb250LXNpemU6IDkwJTsKICAgIH0KCiAgICAud2l0aF9saW5lcyBwcmV7CiAgICAgICAgYm9yZGVyOm5vbmU7CiAgICAgICAgbWFyZ2luLXRvcDogMC4yZW07CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yZW07CiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CiAgICB9CgogICAgLmlzX2NvZGVfZmlsZSBwcmV7CiAgICAgICAgYm9yZGVyOiBub25lOwogICAgICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHByZXsKICAgICAgICB3b3JkLXdyYXA6IG5vcm1hbDsKICAgIH0KCiAgICBwcmUgY29kZXsKICAgICAgICBib3JkZXI6bm9uZTsKICAgICAgICBiYWNrZ3JvdW5kOiBub25lOwogICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHByZSBwewogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHRoLCAuY29kZWhpbGl0ZSB0ZHsKICAgICAgICBsaW5lLWhlaWdodDogMS44ZW07CiAgICB9CgoKICAgIGF7CiAgICAgICAgY29sb3I6ICM0MDgzYzQ7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiBub25lOwogICAgICAgIC8vYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHRyYW5zcGFyZW50OwogICAgfQoKICAgIGE6aG92ZXJ7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7CiAgICAgICAgLy9ib3JkZXItYm90dG9tOiAxcHggc29saWQgIzQwODNjNDsKICAgIH0KCiAgICBzdHJvbmcgewogICAgICAgIGNvbG9yOiAjMDAwMDAwOwogICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkOwogICAgfQoKCiAgICAvKiBmb3IgbWFya2Rvd24gKi8KCiAgICAubGluZW5vcyBwcmV7CgkJYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CgkJYm9yZGVyOiBub25lOwoJfQoJLmxpbmVub3N7CgkgICAgcGFkZGluZzogMCAwIDAgMTBweDsKCX0KCiAgICAudG9jewogICAgICAgIGJhY2tncm91bmQ6ICNmZGZkZmQ7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNXB4OwogICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICNlNmU2ZTY7CiAgICAgICAgbWFyZ2luOiAyN3B4IDAgNDdweCAwOwogICAgICAgIHBhZGRpbmc6IDEwcHggMDsKICAgIH0KCiAgICAudG9jIHVsewogICAgICAgIC8vcGFkZGluZzogNXB4IDQycHg7CiAgICB9CgogICAgLnRvYyB1bCBsaXsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KICAgIC50b2MgYXsKICAgICAgICBjb2xvcjogIzNjM2MzYzsKICAgIH0KCgoKICAgIC50b2RvX2l0ZW17CiAgICAgICAgbGlzdC1zdHlsZTogbm9uZTsKICAgICAgICBtYXJnaW4tbGVmdDogLTEuNWVtCiAgICB9CiAgICAudG9kb19pdGVtIC50b2RvX2l0ZW0gewogICAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvOwogICAgfQoKICAgIC50b2RvX2RvbmVfaXRlbXsKICAgICAgICBjb2xvcjogIzk5OTk5OTsKICAgIH0KCiAgICAudG9kb191bmRvbmVfaXRlbXsKICAgICAgICBjb2xvcjogI2M4NWE1NzsKICAgIH0KCgogICAgdWwgbGkudG9kb19pdGVtewoJbGlzdC1zdHlsZS10eXBlOiBub25lOwogICAgfQoKICAgIHVsIGxpLnRvZG9faXRlbTpiZWZvcmV7CiAgICAgICAgY29udGVudDogJ1wyNzE1JzsKICAgICAgICBwYWRkaW5nLXJpZ2h0OiAwLjdlbTsKICAgICAgICBmb250LWZhbWlseTogYXJpYWw7CiAgICB9CgogICAgdWwgbGkudG9kb19kb25lX2l0ZW06YmVmb3JlewogICAgICAgIGNvbnRlbnQ6ICdcMjcxMyc7CiAgICAgICAgcGFkZGluZy1yaWdodDogMC43ZW07CiAgICAgICAgZm9udC1mYW1pbHk6IGFyaWFsOwogICAgfQoKICAgIHVsIGxpLnRvZG9faXRlbSBpbnB1dHsKICAgICAgICBkaXNwbGF5Om5vbmUKICAgIH0KCgogICAgLypweWdtZW50cyovCgogICAgLmNvZGVoaWxpdGV7CiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDsKICAgIH0KCiAgICB0YWJsZS5jb2RlaGlsaXRldGFibGV7IGJvcmRlcjpub25lOyB9CgoKICAgIC5jb2RlaGlsaXRldGFibGUgdGR7IGJvcmRlcjogbm9uZTsgcGFkZGluZzogMDt9CgogICAgLmZsb3ctZ3JhcGhpY3t0ZXh0LWFsaWduOiBjZW50ZXJ9CgoKICAgIHRhYmxlLCB0ciwgdGQsIHRoLCB0Ym9keSwgdGhlYWQsIHRmb290LCAubWRfZWNoYXJ0cywgYmxvY2txdW90ZSAubWRfbGluZXsKICAgICAgICBwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQgIWltcG9ydGFudDsKICAgIH0KCiAgICAuZm9vdG5vdGVzIC5tZF9saW5lewogICAgICAgIGRpc3BsYXk6IGlubGluZSAhaW1wb3J0YW50OwogICAgfQoKCiAgICAuaW1nX3J0XzkwewogICAgICAgIHRyYW5zZm9ybTpyb3RhdGUoOTBkZWcpOwogICAgICAgIC1tcy10cmFuc2Zvcm06cm90YXRlKDkwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoOTBkZWcpOwogICAgICAgIC13ZWJraXQtdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICAgICAgLW8tdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICB9CiAgICAuaW1nX3J0XzE4MHsKICAgICAgICB0cmFuc2Zvcm06cm90YXRlKDE4MGRlZyk7CiAgICAgICAgLW1zLXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtd2Via2l0LXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtby10cmFuc2Zvcm06cm90YXRlKDE4MGRlZyk7CiAgICB9CiAgICAuaW1nX3J0XzI3MHsKICAgICAgICB0cmFuc2Zvcm06cm90YXRlKDI3MGRlZyk7CiAgICAgICAgLW1zLXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtd2Via2l0LXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtby10cmFuc2Zvcm06cm90YXRlKDI3MGRlZyk7CiAgICB9CgogICAgLm1kX2hhc19ibG9ja19iZWxvd3sKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjFlbSAhaW1wb3J0YW50OwogICAgfQogICAgLm1kX2hhc19ibG9ja19iZWxvd19pbWd7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogLTAuNmVtICFpbXBvcnRhbnQ7CiAgICB9CgoKCiAgICAgICAgc3Bhbi5tZF9saW5le21hcmdpbi1ib3R0b206MC41ZW07IGRpc3BsYXk6YmxvY2s7IGxpbmUtaGVpZ2h0OjEuODE4NjYyNX0KICAgICAgICAubWRfbGluZSBicnsgZGlzcGxheTogbm9uZTt9CiAgICAgICAgLmNvZGVoaWxpdGUgLmhsbCB7IGJhY2tncm91bmQtY29sb3I6ICNmZmZmY2MgfQouY29kZWhpbGl0ZSAgeyBiYWNrZ3JvdW5kOiAjZWVlZWRkOyB9Ci5jb2RlaGlsaXRlIC5jIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBDb21tZW50ICovCi5jb2RlaGlsaXRlIC5lcnIgeyBjb2xvcjogI2E2MTcxNzsgYmFja2dyb3VuZC1jb2xvcjogI2UzZDJkMiB9IC8qIEVycm9yICovCi5jb2RlaGlsaXRlIC5rIHsgY29sb3I6ICM4QjAwOEI7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZCAqLwouY29kZWhpbGl0ZSAubiB7IGNvbG9yOiAjNTU1NTU1IH0gLyogTmFtZSAqLwouY29kZWhpbGl0ZSAubyB7IGNvbG9yOiAjNTU1NTU1IH0gLyogT3BlcmF0b3IgKi8KLmNvZGVoaWxpdGUgLnAgeyBjb2xvcjogIzU1NTU1NSB9IC8qIFB1bmN0dWF0aW9uICovCi5jb2RlaGlsaXRlIC5jbSB7IGNvbG9yOiAjOTk5OTk5IH0gLyogQ29tbWVudC5NdWx0aWxpbmUgKi8KLmNvZGVoaWxpdGUgLmNwIHsgY29sb3I6ICMxZTg4OWIgfSAvKiBDb21tZW50LlByZXByb2MgKi8KLmNvZGVoaWxpdGUgLmMxIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBDb21tZW50LlNpbmdsZSAqLwouY29kZWhpbGl0ZSAuY3MgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBDb21tZW50LlNwZWNpYWwgKi8KLmNvZGVoaWxpdGUgLmdkIHsgY29sb3I6ICNhYTAwMDAgfSAvKiBHZW5lcmljLkRlbGV0ZWQgKi8KLmNvZGVoaWxpdGUgLmdlIHsgZm9udC1zdHlsZTogaXRhbGljIH0gLyogR2VuZXJpYy5FbXBoICovCi5jb2RlaGlsaXRlIC5nciB7IGNvbG9yOiAjYWEwMDAwIH0gLyogR2VuZXJpYy5FcnJvciAqLwouY29kZWhpbGl0ZSAuZ2ggeyBjb2xvcjogIzAwMDA4MDsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBHZW5lcmljLkhlYWRpbmcgKi8KLmNvZGVoaWxpdGUgLmdpIHsgY29sb3I6ICMwMGFhMDAgfSAvKiBHZW5lcmljLkluc2VydGVkICovCi5jb2RlaGlsaXRlIC5nbyB7IGNvbG9yOiAjODg4ODg4IH0gLyogR2VuZXJpYy5PdXRwdXQgKi8KLmNvZGVoaWxpdGUgLmdwIHsgY29sb3I6ICM1NTU1NTUgfSAvKiBHZW5lcmljLlByb21wdCAqLwouY29kZWhpbGl0ZSAuZ3MgeyBmb250LXdlaWdodDogYm9sZCB9IC8qIEdlbmVyaWMuU3Ryb25nICovCi5jb2RlaGlsaXRlIC5ndSB7IGNvbG9yOiAjODAwMDgwOyBmb250LXdlaWdodDogYm9sZCB9IC8qIEdlbmVyaWMuU3ViaGVhZGluZyAqLwouY29kZWhpbGl0ZSAuZ3QgeyBjb2xvcjogI2FhMDAwMCB9IC8qIEdlbmVyaWMuVHJhY2ViYWNrICovCi5jb2RlaGlsaXRlIC5rYyB7IGNvbG9yOiAjOEIwMDhCOyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLmtkIHsgY29sb3I6ICM4QjAwOEI7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZC5EZWNsYXJhdGlvbiAqLwouY29kZWhpbGl0ZSAua24geyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLk5hbWVzcGFjZSAqLwouY29kZWhpbGl0ZSAua3AgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLlBzZXVkbyAqLwouY29kZWhpbGl0ZSAua3IgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLlJlc2VydmVkICovCi5jb2RlaGlsaXRlIC5rdCB7IGNvbG9yOiAjYTdhN2E3OyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuVHlwZSAqLwouY29kZWhpbGl0ZSAubSB7IGNvbG9yOiAjQjQ1MkNEIH0gLyogTGl0ZXJhbC5OdW1iZXIgKi8KLmNvZGVoaWxpdGUgLnMgeyBjb2xvcjogI0NENTU1NSB9IC8qIExpdGVyYWwuU3RyaW5nICovCi5jb2RlaGlsaXRlIC5uYSB7IGNvbG9yOiAjNjU4YjAwIH0gLyogTmFtZS5BdHRyaWJ1dGUgKi8KLmNvZGVoaWxpdGUgLm5iIHsgY29sb3I6ICM2NThiMDAgfSAvKiBOYW1lLkJ1aWx0aW4gKi8KLmNvZGVoaWxpdGUgLm5jIHsgY29sb3I6ICMwMDhiNDU7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogTmFtZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAubm8geyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLm5kIHsgY29sb3I6ICM3MDdhN2MgfSAvKiBOYW1lLkRlY29yYXRvciAqLwouY29kZWhpbGl0ZSAubmkgeyBjb2xvcjogIzU1NTU1NSB9IC8qIE5hbWUuRW50aXR5ICovCi5jb2RlaGlsaXRlIC5uZSB7IGNvbG9yOiAjMDA4YjQ1OyBmb250LXdlaWdodDogYm9sZCB9IC8qIE5hbWUuRXhjZXB0aW9uICovCi5jb2RlaGlsaXRlIC5uZiB7IGNvbG9yOiAjMDA4YjQ1IH0gLyogTmFtZS5GdW5jdGlvbiAqLwouY29kZWhpbGl0ZSAubmwgeyBjb2xvcjogIzU1NTU1NSB9IC8qIE5hbWUuTGFiZWwgKi8KLmNvZGVoaWxpdGUgLm5uIHsgY29sb3I6ICMwMDhiNDU7IHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lIH0gLyogTmFtZS5OYW1lc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm54IHsgY29sb3I6ICM1NTU1NTUgfSAvKiBOYW1lLk90aGVyICovCi5jb2RlaGlsaXRlIC5weSB7IGNvbG9yOiAjNTU1NTU1IH0gLyogTmFtZS5Qcm9wZXJ0eSAqLwouY29kZWhpbGl0ZSAubnQgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBOYW1lLlRhZyAqLwouY29kZWhpbGl0ZSAubnYgeyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuVmFyaWFibGUgKi8KLmNvZGVoaWxpdGUgLm93IHsgY29sb3I6ICM4QjAwOEIgfSAvKiBPcGVyYXRvci5Xb3JkICovCi5jb2RlaGlsaXRlIC53IHsgY29sb3I6ICNiYmJiYmIgfSAvKiBUZXh0LldoaXRlc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm1iIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5CaW4gKi8KLmNvZGVoaWxpdGUgLm1mIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5GbG9hdCAqLwouY29kZWhpbGl0ZSAubWggeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkhleCAqLwouY29kZWhpbGl0ZSAubWkgeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIgKi8KLmNvZGVoaWxpdGUgLm1vIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5PY3QgKi8KLmNvZGVoaWxpdGUgLnNiIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5CYWNrdGljayAqLwouY29kZWhpbGl0ZSAuc2MgeyBjb2xvcjogI0NENTU1NSB9IC8qIExpdGVyYWwuU3RyaW5nLkNoYXIgKi8KLmNvZGVoaWxpdGUgLnNkIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb2MgKi8KLmNvZGVoaWxpdGUgLnMyIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb3VibGUgKi8KLmNvZGVoaWxpdGUgLnNlIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Fc2NhcGUgKi8KLmNvZGVoaWxpdGUgLnNoIHsgY29sb3I6ICMxYzdlNzE7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIExpdGVyYWwuU3RyaW5nLkhlcmVkb2MgKi8KLmNvZGVoaWxpdGUgLnNpIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5JbnRlcnBvbCAqLwouY29kZWhpbGl0ZSAuc3ggeyBjb2xvcjogI2NiNmMyMCB9IC8qIExpdGVyYWwuU3RyaW5nLk90aGVyICovCi5jb2RlaGlsaXRlIC5zciB7IGNvbG9yOiAjMWM3ZTcxIH0gLyogTGl0ZXJhbC5TdHJpbmcuUmVnZXggKi8KLmNvZGVoaWxpdGUgLnMxIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5TaW5nbGUgKi8KLmNvZGVoaWxpdGUgLnNzIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5TeW1ib2wgKi8KLmNvZGVoaWxpdGUgLmJwIHsgY29sb3I6ICM2NThiMDAgfSAvKiBOYW1lLkJ1aWx0aW4uUHNldWRvICovCi5jb2RlaGlsaXRlIC52YyB7IGNvbG9yOiAjMDA2ODhCIH0gLyogTmFtZS5WYXJpYWJsZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAudmcgeyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuVmFyaWFibGUuR2xvYmFsICovCi5jb2RlaGlsaXRlIC52aSB7IGNvbG9yOiAjMDA2ODhCIH0gLyogTmFtZS5WYXJpYWJsZS5JbnN0YW5jZSAqLwouY29kZWhpbGl0ZSAuaWwgeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIuTG9uZyAqLw==">
+    <!--header_scripts-->
+</head>
+<body>
+
+
+<div class="post">
+    
+    <div class="post_body">
+        <h1 id="toc_0">GCD 进阶进阶宝典</h1>
+
+<h1 id="toc_1">1. 并行和并发</h1>
+
+<p class="md_block">
+    <span class="md_line">简单来说，若说两个任务A和B并发执行，则表示任务A和任务B在同一时间段里被执行（更多的可能是二者交替执行）；若说任务A和B并行执行，则表示任务A和任务B在同时被执行（这要求计算机有多个运算器）；<br /></span>
+    <span class="md_line">一句话：并行要求并发，但并发并不能保证并行。</span>
+</p>
+
+
+<h1 id="toc_2">2. Dispatch Queues</h1>
+
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line"><code>Dispatch Queue</code>是一个任务执行队列，可以让你异步或同步地执行多个Block或函数。Dispatch Queue是<strong>FIFO</strong>的，即先入队的任务总会先执行。目前有三种类型的Dispath Queue：</span>
+</p>
+
+
+<ul>
+<li>串行队列（Serial dispatch queue）</li>
+<li>并发队列（Concurrent dispatch queue）</li>
+<li>主队列（Main dispatch queue）</li>
+</ul>
+
+<h2 id="toc_3">2.1 Serial Dispatch Queue 串行队列</h2>
+
+<p class="md_block">
+    <span class="md_line">serial dispatch queue中的block按照先进先出（FIFO）的顺序去执行，实际上为单线程执行。即每次从queue中取出一个task进行处理；用户可以根据需要创建任意多的serial dispatch queue，serial dispatch queue彼此之间是并发的；</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">;</span>
+<span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MySerialQueue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_SERIAL</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_4">2.2 Concurrent Dispatch Queue 并行队列</h2>
+
+<p class="md_block">
+    <span class="md_line">Concurrent Dispatch Queue<br /></span>
+    <span class="md_line">相对于Serial Dispatch Queue，Concurrent Dispatch Queue一次性并发执行一个或者多个task；和Serial Dispatch Queue不同，系统提供了四个global concurrent queue，使用dispatch_get_global_queue函数就可以获取这些global concurrent queue；<br /></span>
+    <span class="md_line">和Serial Dispatch Queue一样，用户也可以根据需要自己定义concurrent queue；创建concurrent dispatch queue也使用dispatch_queue_create方法，所不同的是需要指定其第二个参数为DISPATCH_QUEUE_CONCURRENT即可：</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">;</span>
+<span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyConcurrentQueue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_5">2.3 Main Dispatch Queue 主队列</h2>
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">The main dispatch queue is a globally available serial queue that executes tasks on the application’s main thread.</span>
+</p>
+
+</blockquote>
+
+<p class="md_block">
+    <span class="md_line">根据我的理解，application的主要任务（譬如UI管理之类的）都在main dispatch queue中完成；根据文档的描述，main dispatch queue中的task都在一个thread中运行，即application’s main thread（thread 1）。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">P.S: 所以，如果想要更新UI，则必须在main dispatch queue中处理，获取main dispatch queue也很容易，调用dispatch_get_main_queue()函数即可。</span>
+</p>
+
+
+<h3 id="toc_6">注意</h3>
+
+<p class="md_block">
+    <span class="md_line">thread和dispatch queue之间没有从属关系</span>
+</p>
+
+
+<h1 id="toc_7">3. dispatch_sync和dispatch_async 同步和异步</h1>
+
+<p class="md_block md_has_block_below md_has_block_below_blockquote">
+    <span class="md_line">一个结论：</span>
+</p>
+
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line"><code>dispatch_sync</code> 派发的block的执行线程和 <code>dispatch_sync</code> 上下文线程是同一个线程;<br /></span>
+    <span class="md_line"><code>dispatch_async</code> 派发的block的执行线程和 <code>dispatch_async</code> 上下文线程不是同一个线程，<strong>主队列</strong> 下异步任务还是在主队列下执行；<br /></span>
+    <span class="md_line">对于serial dispatch queue中的tasks，无论是同步派发还是异步派发，其执行顺序都遵循FIFO;</span>
+</p>
+
+</blockquote>
+
+<h1 id="toc_8">4. 使用GCD来替代performSelector的原因:</h1>
+
+<h2 id="toc_9">4.1 <code>performSelector</code> 的局限性:</h2>
+
+<h3 id="toc_10">4.1.1 performSelector 会导致内存泄漏问题</h3>
+
+<p class="md_block">
+    <span class="md_line">用performSelector:调用了一个方法，编译器并不知道将要调用的selector是什么，因此，也就不了解其方法签名及返回值，甚至连是否有返回值都不清楚。而且，由于编译器不知道方法名，所以就没办法用ARC的内存管理规则来判定返回值是不是该释放。鉴于此，ARC采用了比较谨慎的做法，就是不添加释放操作。然而，这么做可能导致内存泄漏，因为方法在返回对象时已经将其保留了。</span>
+</p>
+
+
+<h3 id="toc_11">4.1.2 performSelector 返回值只能是void或对象类型（id类型）</h3>
+
+<p class="md_block">
+    <span class="md_line">如果想返回整数或浮点数等scalar类型值，那么就需要执行一些复杂的转换操作，而这种转换操作很容易出错。由于id类型表示指向任意Objective—C对象的指针，所以从技术上来讲，只要返回的大小和指针所占大小相同就行，也就是说，在32位架构的计算机上，可以返回任意32位大小的类型；而在64位架构的计算机上，则可以返回任意64位大小的类型。除此之外，还可以返回NSNumber进行转换…若返回的类型为C语言结构体，则不可使用performSelector方法。</span>
+</p>
+
+
+<h3 id="toc_12">4.1.3 performSelector 提供的方法局限性大</h3>
+<div class="codehilite  highlight"><pre><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">performSelector:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span> <span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anArgument</span> <span class="nf">afterDelay:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">delay</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">performSelector:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span> <span class="nf">onThread:</span><span class="p">(</span><span class="bp">NSThread</span> <span class="o">*</span><span class="p">)</span><span class="nv">thr</span> <span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">arg</span> <span class="nf">waitUntilDone:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">wait</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">performSelectorOnMainThread:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span> <span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">arg</span> <span class="nf">waitUntilDone:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">wait</span><span class="p">;</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">具备延后功能的那些方法无法处理带有两个参数的选择子。而能够指定执行线程的哪些方法，则与之类似，所以也不是特别通用。如果要用这些方法，就得把很多参数打包到字典中，然后在被调用的方法中将这些参数提取出来，这样会增加开销，同时也提高了产生bug的可能性。</span>
+</p>
+
+
+<h1 id="toc_13">5.GCD 中block的使用问题</h1>
+
+<h2 id="toc_14">5.1 GCD 会对添加的Block进行复制</h2>
+
+<p class="md_block">
+    <span class="md_line">Dispatchqueue对添加的Block会进行复制,在完成执行后自动释放。换 句话说,你不需要在添加 Block 到 Queue 时显式地复制</span>
+</p>
+
+
+<h2 id="toc_15">5.2 GCD 中的autorelease pool</h2>
+
+<p class="md_block">
+    <span class="md_line">GCD dispatch queue 有自己的autorelease pool来管理内存对象，但是不保证在什么时候会进行回收，如果在block中创建了大量的对象，可以添加自己的autorelease pool来进行管理。</span>
+</p>
+
+
+<h2 id="toc_16">5.3 GCD 中在开新的线程执行任务一定比较快吗</h2>
+
+<p class="md_block">
+    <span class="md_line">如果对于工作量小的block切换线程的开销，比直接在原来线程上执行block的开销要大，那么这样的话，会导致开新的线程反而没有原来执行的快</span>
+</p>
+
+
+<h2 id="toc_17">5.4 GCD 中的block会造成循环引用吗</h2>
+
+<p class="md_block">
+    <span class="md_line">会，如果控制器持有block的话，是会造成循环引用，如果我们只持有queue是不会造成循环引用。</span>
+</p>
+
+
+<h1 id="toc_18">6. GCD 的暂停和继续</h1>
+
+<ol>
+<li><strong>dispatch_suspend</strong> 会暂停一个队列以阻止执行block对象，调用 <strong>dispatch_suspend</strong> 会增加queue的引用计数</li>
+<li><strong>dispatch_resume</strong> 会使得队列恢复继续执行block对象，调用 <strong>dispatch_resume</strong> 会减少queue的引用计数</li>
+</ol>
+
+<p class="md_block">
+    <span class="md_line">挂起和继续是异步的，只在没有执行的block上生效，挂起一个block不会导致已经开始执行的block停止执行。</span>
+</p>
+
+
+<h1 id="toc_19">7. GCD中的信号量 Semaphore</h1>
+
+<h2 id="toc_20">7.1 信号量概念</h2>
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">停车场剩余4个车位，那么即使同时来了四辆车也能停的下。如果此时来了五辆车，那么就有一辆需要等待。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　　信号量的值就相当于剩余车位的数目，dispatch_semaphore_wait函数就相当于来了一辆车，</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　　dispatch_semaphore_signal，就相当于走了一辆车。停车位的剩余数目在初始化的时候就已经指明了（dispatch_semaphore_create（long value））</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　　调用一次dispatch_semaphore_signal，剩余的车位就增加一个；调用一次dispatch_semaphore_wait剩余车位就减少一个；</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　　当剩余车位为0时，再来车（即调用dispatch_semaphore_wait）就只能等待。有可能同时有几辆车等待一个停车位。有些车主</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　　没有耐心，给自己设定了一段等待时间，这段时间内等不到停车位就走了，如果等到了就开进去停车。而有些车主就像把车停在这，</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">　所以就一直等下去。</span>
+</p>
+
+</blockquote>
+
+<h2 id="toc_21">7.2 信号量的创建和使用</h2>
+
+<ol>
+<li>
+<p class="md_block">
+    <span class="md_line">创建 <code>dispatch_semaphore_create</code></span>
+</p>
+
+
+<pre><code>  ``` objc 
+  /*!
+
+ * @function dispatch_semaphore_create
+
+   使用信号量来处理多个线程之间竞争资源的情况特别合适，在value等于0的时候进行等待，在value大于0的时候运行
+ *
+
+ * @param value
+ * 初始化创建的信号量的个数
+
+ *
+
+ * @result
+ * 当前创建的信号量
+
+ */
+__OSX_AVAILABLE_STARTING(__MAC_10_6,__IPHONE_4_0)
+DISPATCH_EXPORT DISPATCH_MALLOC DISPATCH_RETURNS_RETAINED DISPATCH_WARN_RESULT
+DISPATCH_NOTHROW
+dispatch_semaphore_t
+dispatch_semaphore_create(long value);```</code></pre>
+
+<!--block_code_end--></li>
+<li>
+<p class="md_block">
+    <span class="md_line">等待 <code>dispatch_semaphore_wait</code></span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="cm">/*</span>
+
+<span class="cm">     * @function dispatch_semaphore_wait</span>
+
+<span class="cm">     *</span>
+
+<span class="cm">     * @abstract</span>
+<span class="cm">     * 等待一个信号量</span>
+
+<span class="cm">     *</span>
+
+<span class="cm">     * @discussion</span>
+<span class="cm">     * 会对信号量进行-1,如果value小于0，接下来的方法会允许等待的时间里一直等待直到有其他线程有信号量产生即value&gt;1 才开始执行</span>
+
+<span class="cm">     *</span>
+
+<span class="cm">     * @param dsema</span>
+<span class="cm">     * The semaphore. 不允许设置为NULL</span>
+<span class="cm">     * @param timeout</span>
+<span class="cm">     * 允许等待的超时时间</span>
+<span class="cm">     * 一下两个是宏定义的时间</span>
+<span class="cm">     * DISPATCH_TIME_NOW and DISPATCH_TIME_FOREVER constants.</span>
+
+<span class="cm">     *</span>
+<span class="cm">     */</span>
+    <span class="n">__OSX_AVAILABLE_STARTING</span><span class="p">(</span><span class="n">__MAC_10_6</span><span class="p">,</span><span class="n">__IPHONE_4_0</span><span class="p">)</span>
+    <span class="n">DISPATCH_EXPORT</span> <span class="n">DISPATCH_NONNULL_ALL</span> <span class="n">DISPATCH_NOTHROW</span>
+    <span class="kt">long</span>
+    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="kt">dispatch_semaphore_t</span> <span class="n">dsema</span><span class="p">,</span> <span class="kt">dispatch_time_t</span> <span class="n">timeout</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end--></li>
+<li>
+<p class="md_block">
+    <span class="md_line">产生 <code>dispatch_semaphore_signal</code></span>
+</p>
+
+<div class="codehilite  highlight"><pre>  <span class="cm">/*!</span>
+
+<span class="cm"> * @function dispatch_semaphore_signal</span>
+
+<span class="cm"> *</span>
+
+<span class="cm"> * @abstract</span>
+<span class="cm"> * 对信号量增加1</span>
+
+<span class="cm"> *</span>
+
+<span class="cm"> * @discussion</span>
+<span class="cm"> * 对信号量增加1,如果之前的value==0,那么这个操作会唤醒一个正在等待的线程</span>
+<span class="cm"> * </span>
+<span class="cm"> * @param dsema The counting semaphore.</span>
+<span class="cm"> * The semaphore. 不允许设置为NULL</span>
+
+<span class="cm"> */</span>
+<span class="n">__OSX_AVAILABLE_STARTING</span><span class="p">(</span><span class="n">__MAC_10_6</span><span class="p">,</span><span class="n">__IPHONE_4_0</span><span class="p">)</span>
+<span class="n">DISPATCH_EXPORT</span> <span class="n">DISPATCH_NONNULL_ALL</span> <span class="n">DISPATCH_NOTHROW</span>
+<span class="kt">long</span>
+<span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="kt">dispatch_semaphore_t</span> <span class="n">dsema</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end--></li>
+</ol>
+
+<h2 id="toc_22">注意</h2>
+
+<p class="md_block">
+    <span class="md_line md_line_dom_embed"><code>dispatch_semaphore_signal</code> 和 <code>dispatch_semaphore_wait</code> 必须成对出现，并且在 <code>dispatch_release(aSemaphore)</code>;之前，<code>aSemaphore</code> 的value需要恢复之前的数值，不然会导致 <code>EXC_BAD_INSTRUCTION</code><br /></span>
+    <span class="md_line">在ARC情况下不需要使用dispatch_release来进行释放，由系统统一管理</span>
+</p>
+
+
+<h2 id="toc_23">7.3 <code>Dispatch Semaphore</code> 的应用</h2>
+
+<h3 id="toc_24">7.3.1 控制并发线程数量</h3>
+<div class="codehilite  highlight"><pre><span class="cm">/*</span>
+<span class="cm"> *</span>
+<span class="cm"> 实战版本：具有专门控制并发等待的线程，优点是不会阻塞主线程，可以跑一下 demo，你会发现主屏幕上的按钮是可点击的。但相应的，viewdidload 方法中的栅栏方法dispatch_barrier_async就失去了自己的作用：无法达到“等为数组遍历添加元素后，检查下数组的成员个数是否正确”的效果。</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">dispatch_async_limit</span><span class="p">(</span><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">,</span><span class="bp">NSUInteger</span> <span class="n">limitSemaphoreCount</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">//控制并发数的信号量</span>
+    <span class="k">static</span> <span class="kt">dispatch_semaphore_t</span> <span class="n">limitSemaphore</span><span class="p">;</span>
+    <span class="c1">//专门控制并发等待的线程</span>
+    <span class="k">static</span> <span class="kt">dispatch_queue_t</span> <span class="n">receiverQueue</span><span class="p">;</span>
+    
+    <span class="c1">//使用 dispatch_once而非 lazy 模式，防止可能的多线程抢占问题</span>
+    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">limitSemaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">limitSemaphoreCount</span><span class="p">);</span>
+        <span class="n">receiverQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;receiver&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_SERIAL</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">receiverQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="c1">//可用信号量后才能继续，否则等待</span>
+        <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">limitSemaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+            <span class="o">!</span><span class="n">block</span> <span class="o">?</span> <span class="o">:</span> <span class="n">block</span><span class="p">();</span>
+            <span class="c1">//在该工作线程执行完成后释放信号量</span>
+            <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">limitSemaphore</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h3 id="toc_25">7.3.2 为 NSURLSession 添加同步方法 在数据请求完成后才会返回</h3>
+<div class="codehilite  highlight"><pre><span class="p">+</span> <span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">sendSynchronousRequest:</span><span class="p">(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">returningResponse:</span><span class="p">(</span><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="k">__autoreleasing</span> <span class="o">*</span><span class="p">)</span><span class="nv">response</span> <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="k">__autoreleasing</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+    <span class="k">__block</span> <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="kt">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="p">[[[</span><span class="bp">NSURLSession</span> <span class="n">sharedSession</span><span class="p">]</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="n">taskData</span><span class="p">,</span> <span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">taskResponse</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">taskError</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">taskData</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="o">*</span><span class="n">response</span> <span class="o">=</span> <span class="n">taskResponse</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="n">taskError</span><span class="p">;</span>
+
+        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+    <span class="p">}]</span> <span class="n">resume</span><span class="p">];</span>
+
+    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">但是也要思考下为什么 Apple 取消了同步方法：同步方法的风险远远超过受益。</span>
+</p>
+
+
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line">要注意：</span>
+</p>
+
+
+<ul>
+<li>除非万不得已，否则永远不要尝试在主线程上发送同步的网络请求</li>
+<li>尽量只在后台线程中独占线程发送同步的网络请求</li>
+</ul>
+
+<h3 id="toc_26">7.3.3 加锁</h3>
+
+<p class="md_block">
+    <span class="md_line">阻塞线程， 直到 value&gt;1 </span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="n">lock</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    
+    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">lock</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+    
+    <span class="c1">// 先从缓存中尝试获取</span>
+    <span class="n">_YYModelMeta</span> <span class="o">*</span><span class="n">meta</span> <span class="o">=</span> <span class="n">CFDictionaryGetValue</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="p">(</span><span class="k">__bridge</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">)(</span><span class="n">cls</span><span class="p">));</span>
+    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_27">8. GCD Group的实践</h1>
+
+<h2 id="toc_28">8.1 用group wait来等待queue的一组任务</h2>
+
+<p class="md_block">
+    <span class="md_line">如果要等待queue中的一系列操作完成后再去执行一个相应的任务，除了用barrier之外,我们也可以通过group来进行处理，dispatch group wait会阻塞当前的线程，直到group中的任务完成才会停止阻塞，这样我们可以达到一个目的，直到前面的任务完成了，才执行后面的代码</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+
+    <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;1&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;2&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;3&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;4&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="c1">// 开启一个异步队列来等待</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;done&quot;</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+    
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;主线程&quot;</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">打印结果：</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">45.188</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777587</span><span class="p">]</span> <span class="mi">3</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">45.188</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777585</span><span class="p">]</span> <span class="mi">1</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">45.188</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777586</span><span class="p">]</span> <span class="mi">2</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">45.188</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777495</span><span class="p">]</span> <span class="err">主线程</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">50.189</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777617</span><span class="p">]</span> <span class="mi">4</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">50.189</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45653</span><span class="o">:</span><span class="mi">1777618</span><span class="p">]</span> <span class="n">done</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_29">8.2 用group notify来实现等待queue的一组任务</h2>
+
+<p class="md_block">
+    <span class="md_line">用 <code>dispatch_group_notify</code>方法可以等待group中的任务，notify中的任务在原来group中的任务执行结束前不会执行</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+    
+    <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;1&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;2&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;3&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;4&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="c1">// 等待group中的任务执行完成</span>
+    <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;done&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;主线程&quot;</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">打印结果</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">04.207</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789795</span><span class="p">]</span> <span class="mi">3</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">04.207</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789794</span><span class="p">]</span> <span class="mi">1</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">04.207</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789793</span><span class="p">]</span> <span class="mi">2</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">04.208</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789768</span><span class="p">]</span> <span class="err">主线程</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">09.211</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789798</span><span class="p">]</span> <span class="mi">4</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mi">15</span><span class="o">:</span><span class="mi">25</span><span class="o">:</span><span class="mf">09.212</span> <span class="n">dispatch_source</span><span class="p">[</span><span class="mi">45904</span><span class="o">:</span><span class="mi">1789798</span><span class="p">]</span> <span class="n">done</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_30">8.3 手动进入group</h2>
+
+<p class="md_block">
+    <span class="md_line"><code>dispatch_group_enter</code> 手动通知 Dispatch Group 任务已经开始。你必须保证 <code>dispatch_group_enter</code> 和 <code>dispatch_group_leave</code> 成对出现，否则你可能会遇到诡异的崩溃问题。</span>
+</p>
+
+<div class="codehilite  highlight"><pre>  <span class="c1">// 进入group</span>
+  <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+  <span class="o">**</span> <span class="err">加入组执行的代码</span> <span class="o">**</span>
+  
+  <span class="c1">// 离开group</span>
+  <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_31">8.4 应用例子</h2>
+
+<ol>
+<li>多线程下载9张小图片，然后在都下载好后将9张小图片合成一个大图片</li>
+<li>监测多个网络请求的完成</li>
+</ol>
+
+<h1 id="toc_32">9 Dispatch Source 分派源</h1>
+
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line">dispatch source 是基础数据类型,协调特定底层系统事件的处理。GCD 支持 以下 dispatch source:</span>
+</p>
+
+
+<ul>
+<li>Timer dispatch source: 定期产生通知</li>
+<li>Signal dispatch source: UNIX 信号达到时产生通知</li>
+<li>Descriptor dispatch source: 各种文件和socket操作的通知
+
+<ul>
+<li>数据可读</li>
+<li>数据可写</li>
+<li>文件在文件系统中被删除、移动、重命名</li>
+<li>文件元素信息gaibian</li>
+</ul></li>
+<li>Process dispatch source: 进程相关的事件通知
+
+<ul>
+<li>进程退出时</li>
+<li>当进程发起fork或exec等调用</li>
+<li>信号被递送到进程</li>
+</ul></li>
+<li>Mach port dispatch source: Mach 相关事件的通知</li>
+<li>Custom dispatch source: 你自己定义并自己触发</li>
+</ul>
+
+<p class="md_block">
+    <span class="md_line"><code>Dispatch source</code> 替代了异步回调函数,来处理系统相关的事件。当你配置一个<code>dispatch source</code> 时,你指定要监测的事件、<code>dispatch queue</code>、以及处理事件的代 码(block 或函数)。当事件发生时, <code>dispatch source</code> 会提交你的 block 或函数到 指定的 queue 去执行。<br /></span>
+    <span class="md_line">和手工提交到 queue 的任务不同,dispatch source 为应用提供连续的事件源。 除非你显式地取消,dispatch source 会一直保留与 dispatch queue 的关联。只要 相应的事件发生,就会提交关联的代码到 dispatch queue 去执行。<br /></span>
+    <span class="md_line">为了防止事件积压到 dispatch queue,dispatch source 实现了事件合并机制。<br /></span>
+    <span class="md_line"><strong>如果新事件在上一个事件处理器出列并执行之前到达,dispatch source 会将新旧事件的数据合并</strong>。根据事件类型的不同,合并操作可能会替换旧事件,或者更新 旧事件的信息。</span>
+</p>
+
+
+<pre><code>名称                                   内容
+DISPATCH_SOURCE_TYPE_DATA_ADD         变量增加
+DISPATCH_SOURCE_TYPE_DATA_OR           变量OR
+DISPATCH_SOURCE_TYPE_MACH_SEND     MACH端口发送
+DISPATCH_SOURCE_TYPE_MACH_RECV     MACH端口接收
+DISPATCH_SOURCE_TYPE_PROC        监测到与进程相关的事件
+DISPATCH_SOURCE_TYPE_READ           可读取文件映像
+DISPATCH_SOURCE_TYPE_SIGNAL          接收信号
+DISPATCH_SOURCE_TYPE_TIMER            定时器
+DISPATCH_SOURCE_TYPE_VNODE         文件系统有变更
+DISPATCH_SOURCE_TYPE_WRITE           可写入文件映像</code></pre>
+
+<!--block_code_end-->
+<h2 id="toc_33">9.1 创建Dispatch Source</h2>
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">分派源提供了高效的方式来处理事件。首先注册事件处理程序，事件发生时会收到通知。如果在系统还没有来得及通知你之前事件就发生了多次，那么这些事件会被合并为一个事件。</span>
+</p>
+
+</blockquote>
+
+<h4 id="toc_34"><strong>创建步骤</strong></h4>
+
+<ol>
+<li>使用dispatch_source_create 函数创建 dispatch source</li>
+<li>配置dispatch source
+
+<ul>
+<li>为 dispatch source 设置一个Handle</li>
+<li>对于定时器源,使用 dispatch_source_set_timer 函数设置定时器信息</li>
+</ul></li>
+<li>为dispatchsource赋予一个取消处理器</li>
+<li>调用 dispatch_resume 函数开始处理事件</li>
+</ol>
+<div class="codehilite  highlight"><pre>    <span class="c1">//1. 使用dispatch_source_create 函数创建 dispatch source</span>
+    <span class="c1">// 指定DISPATCH_SOURCE_TYPE_DATA_ADD，做成Dispatch Source(分派源)。设定Main Dispatch Queue 为追加处理的Dispatch Queue</span>
+    <span class="n">_processingQueueSource</span> <span class="o">=</span> <span class="n">dispatch_source_create</span><span class="p">(</span><span class="n">DISPATCH_SOURCE_TYPE_DATA_ADD</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                                                    <span class="n">dispatch_get_main_queue</span><span class="p">());</span>
+    <span class="k">__block</span> <span class="bp">NSUInteger</span> <span class="n">totalComplete</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="c1">// 2 配置dispatch source</span>
+    <span class="n">dispatch_source_set_event_handler</span><span class="p">(</span><span class="n">_processingQueueSource</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        
+        <span class="o">***</span><span class="err">执行的代码</span><span class="o">***</span>
+    <span class="p">});</span>
+    <span class="c1">// 4. 调用 dispatch_resume 函数开始处理事件</span>
+    <span class="c1">// 分派源创建时默认处于暂停状态，在分派源分派处理程序之前必须先恢复。</span>
+    <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">_processingQueueSource</span><span class="p">);</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_35">9.2 暂停、恢复与取消操作</h2>
+
+<p class="md_block">
+    <span class="md_line">需要记得的一点是分派源创建时默认处于暂停状态，在分派源分派处理程序之前必须先恢复。<br /></span>
+    <span class="md_line"><code>dispatch_suspend(queue)</code>: 用来对分派源进行暂停操作，只能暂停还没执行的任务，如果已经开始执行的任务不会受到影响</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line"><code>dispatch_resume (source)</code>: 对暂停的分派源进行恢复操作</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">暂停一个 dispatch source 期间,发生的任何事件都会被累积,直到 dispatch source 继续。但是不会递送所有事件,而是先合并到单一事件,然后再一次递送。dispatch source中的handler的block会暂停执行，而 <code>dispatch_source_merge_data</code>会继续发送消息，只是handler不会被挂起不去处理，一旦恢复，handler会马上收到 <code>dispatch_source_merge_data</code> 发送来的所有消息</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line"><code>dispatch_source_cancel(source)</code>: 除非你显式地调用 <code>dispatch_source_cancel</code> 函数,dispatch source 将一直保持 活动,取消一个 dispatch source 会停止递送新事件,并且不能撤销。</span>
+</p>
+
+
+<h2 id="toc_36">9.4 Dispatch Source 和 <strong>Dispatch Queue</strong> 两者在线程执行上的关系</h2>
+
+<p class="md_block">
+    <span class="md_line">两者线程上没有关系，独立运行。 <strong>Dispatch Queue</strong> 像一个生产任务的生产者，而 <strong>Dispatch Source</strong> 像处理任务的消费者。可以一边异步生产，也可一边异步消费。你可以在任意线程上调用 <code>dispatch_source_merge_data</code> 以触发 <code>dispatch_source_set_event_handler</code> 。而句柄的执行线程，取决于你创建句柄时所指定的线程。<br /></span>
+    <span class="md_line">自定义源也需要一个队列，用来处理所有的响应句柄（block）。那么岂不是有两个队列了？没错，一个队列用来执行自定义源，一个用来执行句柄</span>
+</p>
+
+
+<h2 id="toc_37">9.5 Dispatch Source 能通过合并事件来确保高负载下正常工作</h2>
+
+<p class="md_block">
+    <span class="md_line">在同一时间，只有一个处理 block 的实例被分配，如果这个处理方法还没有执行完毕，另一个事件就发生了，事件会以指定方式（ADD或 OR）进行累积。DispatchSource能通过合并事件（block）的方式确保在高负载下正常工作。</span>
+</p>
+
+
+<h2 id="toc_38">9.6 Dispatch Source 的实际应用</h2>
+
+<h3 id="toc_39">9.6.1 Dispatch Source 实现GCD中队列任务的终止</h3>
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">实际上 Dispatch Queue 没有“取消”这一概念。一旦将处理追加到 Dispatch Queue 中，就没有方法可将该处理去除，也没有方法可在执行中取消该处理。编程人员要么在处理中导入取消这一概念。<br /></span>
+    <span class="md_line">要么放弃取消，或者使用 NSOperationQueue 等其他方法。<br /></span>
+    <span class="md_line">Dispatch Source 与 Dispatch Queue 不同，是可以取消的。而且取消时必须执行的处理可指定为回调用的Block形式。</span>
+</p>
+
+</blockquote>
+
+<h3 id="toc_40">9.6.2 使用Dispatch Queue 来取代NSTimer</h3>
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">众所周知，定时器有NSTimer，但是NSTimer有如下弊端：</span>
+</p>
+
+
+<ol>
+<li>必须保证有一个活跃的runloop，子线程的runloop是默认关闭的。这时如果不手动激活runloop，performSelector和scheduledTimerWithTimeInterval的调用将是无效的</li>
+<li>NSTimer的创建与撤销必须在同一个线程操作、performSelector的创建与撤销必须在同一个线程操作。</li>
+<li>内存管理有潜在泄露的风险会造成循环引用</li>
+</ol>
+
+<p class="md_block">
+    <span class="md_line">所以我们可以使用 <code>Dispatch Source</code> 的 <code>DISPATCH_SOURCE_TYPE_TIMER</code> 来实现这个效果</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="p">-(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">startGCDTimer</span><span class="p">{</span>
+    <span class="n">NSTimeInterval</span> <span class="n">period</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span> <span class="c1">//设置时间间隔</span>
+    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+     <span class="n">_timer</span> <span class="o">=</span> <span class="n">dispatch_source_create</span><span class="p">(</span><span class="n">DISPATCH_SOURCE_TYPE_TIMER</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">queue</span><span class="p">);</span>
+    <span class="n">dispatch_source_set_timer</span><span class="p">(</span><span class="n">_timer</span><span class="p">,</span> <span class="n">dispatch_walltime</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">period</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">//每秒执行</span>
+    <span class="n">dispatch_source_set_event_handler</span><span class="p">(</span><span class="n">_timer</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="c1">//在这里执行事件</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;每秒执行test&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">_timer</span><span class="p">);</span>
+<span class="p">}</span>
+    
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">pauseTimer</span><span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_timer</span><span class="p">){</span>
+        <span class="n">dispatch_suspend</span><span class="p">(</span><span class="n">_timer</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+    
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">resumeTimer</span><span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_timer</span><span class="p">){</span>
+        <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">_timer</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+    
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">stopTimer</span><span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_timer</span><span class="p">){</span>
+        <span class="n">dispatch_source_cancel</span><span class="p">(</span><span class="n">_timer</span><span class="p">);</span>
+        <span class="n">_timer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h3 id="toc_41">9.6.3 监控文件系统对象</h3>
+
+<p class="md_block">
+    <span class="md_line">设置<code>DISPATCH_SOURCE_TYPE_VNODE</code> 类型的Dispatch Source，可以中这个 Source 中接收文件删除、写入、重命名等通知。</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">O_EVTONLY</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="kt">dispatch_source_t</span> <span class="n">source</span> <span class="o">=</span> <span class="n">dispatch_source_create</span><span class="p">(</span><span class="n">DISPATCH_SOURCE_TYPE_VNODE</span><span class="p">,</span>
+                                                       <span class="p">,</span> <span class="n">DISPATCH_VNODE_RENAME</span><span class="p">,</span> <span class="n">queue</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="c1">// 保持文件名</span>
+      <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+      <span class="kt">char</span><span class="o">*</span> <span class="n">newString</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="n">newString</span> <span class="o">=</span> <span class="n">strcpy</span><span class="p">(</span><span class="n">newString</span><span class="p">,</span> <span class="n">filename</span><span class="p">);</span>
+      <span class="n">dispatch_set_context</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">newString</span><span class="p">);</span>
+      <span class="c1">// 设置Source的handler 来对监测文件修改的处理</span>
+      <span class="n">dispatch_source_set_event_handler</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+      <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">oldFilename</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">dispatch_get_context</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+      <span class="n">MyUpdateFileName</span><span class="p">(</span><span class="n">oldFilename</span><span class="p">,</span> <span class="n">fd</span><span class="p">);</span>
+      <span class="p">});</span>
+    
+    <span class="c1">// 做释放source之前的处理 关闭文件</span>
+      <span class="n">dispatch_source_set_cancel_handler</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="kt">char</span><span class="o">*</span> <span class="n">fileStr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">dispatch_get_context</span><span class="p">(</span><span class="n">source</span><span class="p">);</span> <span class="n">free</span><span class="p">(</span><span class="n">fileStr</span><span class="p">);</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="c1">// 开始执行start</span>
+    <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+  <span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h3 id="toc_42">9.6.4 监测进程的变化</h3>
+
+<p class="md_block">
+    <span class="md_line">进程 dispatch source 可以监控特定进程的行为,并适当地响应。父进程可以 使用 dispatch source 来监控自己创建的所有子进程,例如监控子进程的死亡;类 似地,子进程也可以使用 dispatch source 来监控父进程,例如在父进程退出时自 己也退出。</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">();</span>
+    
+    <span class="k">static</span> <span class="kt">dispatch_source_t</span> <span class="n">source</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    
+    <span class="n">__typeof</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="k">__weak</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+  
+    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        
+        <span class="n">source</span> <span class="o">=</span> <span class="n">dispatch_source_create</span><span class="p">(</span><span class="n">DISPATCH_SOURCE_TYPE_SIGNAL</span><span class="p">,</span> <span class="n">SIGSTOP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">queue</span><span class="p">);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">){</span>
+            <span class="n">dispatch_source_set_event_handler</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+                
+                <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hi, I am: %@&quot;</span><span class="p">,</span> <span class="n">weakSelf</span><span class="p">);</span>
+            <span class="p">});</span>
+            <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">source</span><span class="p">);</span> 
+        <span class="p">}</span>
+    <span class="p">});</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">可以在上面看到实现的结果，当执行的时候打断点，进程发现变化彩绘进去打印 <code>Hi, I am:XXXXX</code>这句话</span>
+</p>
+
+
+<h3 id="toc_43">9.6.5 实现对搜索的截流</h3>
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">在做搜索的功能时，常常会遇到即时搜索中用户一起发送网络请求对服务器负载过大的问题，这时候如果我们会使用截流的功能来对搜索模块做一个本地优化，就能很大程度上缓解服务器端的压力:</span>
+</p>
+
+
+<ol>
+<li>首先保存一个全局的字典，对source和和对应的实现联系起来</li>
+<li>在每次调用的时候都会进入到相应的方法中判断字典中是否存在这个source如果有 做取消操作</li>
+<li>只有在限定的时间内没有进行重新操作时，我们才会调用到handler的代码，也就是我们常常做网络请求的地方</li>
+<li>其实就是做了一个操作在没达到threshold秒之前做的操作，此次操作之前的n-1次操作都会被取消掉，留下最后这个操作。如果在这段时间不再触发这个事件，这个block就会在threshold秒后运行，达到想要的截流效果</li>
+</ol>
+<div class="codehilite  highlight"><pre><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_throttle:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">threshold</span> <span class="nf">queue:</span><span class="p">(</span><span class="kt">dispatch_queue_t</span><span class="p">)</span><span class="nv">queue</span> <span class="nf">key:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="nf">block:</span><span class="p">(</span><span class="n">GCDThrottleBlock</span><span class="p">)</span><span class="nv">block</span> <span class="p">{</span>
+    
+    <span class="c1">/// 用一个全局的dictionay来存储sources</span>
+    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">scheduledSources</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">scheduledSources</span><span class="p">;</span>
+    
+    <span class="c1">// 从字典中获取这个sourc</span>
+    <span class="kt">dispatch_source_t</span> <span class="n">source</span> <span class="o">=</span> <span class="n">scheduledSources</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 如果获取得到就取消</span>
+        <span class="n">dispatch_source_cancel</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 创建新的sources 在指定的队列上运行</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">dispatch_source_create</span><span class="p">(</span><span class="n">DISPATCH_SOURCE_TYPE_TIMER</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">queue</span><span class="p">);</span>
+    <span class="c1">/// 每threshold秒执行一次对应的block</span>
+    <span class="n">dispatch_source_set_timer</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">),</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">dispatch_source_set_event_handler</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="c1">// 最后一次执行的时候，把这个block给移除掉</span>
+        <span class="n">block</span><span class="p">();</span>
+        <span class="c1">// 删除对应的事件</span>
+        <span class="n">dispatch_source_cancel</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">scheduledSources</span> <span class="nl">removeObjectForKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+    <span class="p">});</span>
+    <span class="c1">// 让定时器开始启动</span>
+    <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+    
+    <span class="c1">/// 在全局dict中保存</span>
+    <span class="n">scheduledSources</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_44">10 dispatch_barrier 栅栏</h1>
+
+<p class="md_block md_has_block_below md_has_block_below_img">
+    <span class="md_line"><code>dispatch_barrier</code> 最大的作用就是用来做<strong>阻塞</strong>，阻塞当前的线程，做到一个<strong>承上启下</strong>的作用，只有在它之前的任务全部执行完之后，它和它之后的任务才能进行。可以理解为成语<strong>一夫当关，万夫莫开</strong>，只有在它面前的任务“死掉了”（即执行完了）后面的任务才能继续进行下去。</span>
+</p>
+
+<img onerror="this.src='file:///Users/Rokingsly/iOS进阶宝典/1. GCD/_image/2016-07-11 14-24-02.jpg';this.onerror=null;"  class="" src="/1. GCD/_image/2016-07-11 14-24-02.jpg" alt="" title="" >
+<h2 id="toc_45">10.1 使用注意</h2>
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">使用dispatch_barrier 是用来阻断并行任务不能确定先后任务完成的问题，<strong>它必须使用在自定义并行队列上</strong>，否则没有意义，为什么说没意义呢，我们接下来分析为什么没意义：</span>
+</p>
+
+
+<ol>
+<li>如果运用在串行队列上，没有意义，因为串行队列本来就是先进先出的规则，用了栅栏跟没用没有区别</li>
+<li>如果使用全局队列，也是没有意义，我们每次 <strong>dispatch_get_global_queue</strong> 获取到的队列都是不同的，我们任务前后执行不在同一个线程上，也就没有了截流之分。</li>
+</ol>
+
+<h2 id="toc_46">10.2 可写对象的写入安全问题</h2>
+
+<p class="md_block">
+    <span class="md_line">系统中提供的可变对象都是线程不安全的，也就是在一个线程进行写入数据的时候，不允许其他线程访问，无论是读或者是写都是不允许的。</span>
+</p>
+
+
+<h2 id="toc_47">10.2.1 使用dispatch_barrier来实现写入安全</h2>
+<div class="codehilite  highlight"><pre>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">dictionary</span><span class="p">];</span>
+    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;iKingsly&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+    
+    <span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">dict</span><span class="p">[</span><span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_48">10.2.2 使用信号量来处理读写线程安全问题</h2>
+<div class="codehilite  highlight"><pre>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">dictionary</span><span class="p">];</span>
+    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;iKingsly&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+    <span class="kt">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">dict</span><span class="p">[</span><span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="l">@(</span><span class="n">i</span><span class="l">)</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+    <span class="p">});</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_49">11  GCD 和 NSOperation</h1>
+
+<h2 id="toc_50">11.1 Dispatch Queue 和 NSOperation Queue 的区别</h2>
+
+<h2 id="toc_51">11.1.1  Dispatch Queue</h2>
+
+<p class="md_block">
+    <span class="md_line">Dispatch Queue 基于 C 的执行自定义任务机制。dispatch queue 按先进先出的顺序,串行或并发地执行任务。serial dispatch直接当前任务完成才开始出列并启动下一个任务。而 concurrentdispatch queue 则尽可能多地启动任务并发执行。 queue 一次只能执行一个任务。</span>
+</p>
+
+
+<h2 id="toc_52">11.1.2  NSOperation Queue</h2>
+
+<p class="md_block">
+    <span class="md_line">Operation Queues 是 Cocoa 版本的并发 dispatch queue,由 NSOperationQueue 类实现。dispatch queue 总是按先进先出的顺序执 行任务,而 **Operation Queues **在确定任务执行顺序时,还会考虑其它因 素。最主要的一个因素是指定任务是否依赖于另一个任务的完成。</span>
+</p>
+
+
+<h2 id="toc_53">11.2 NSOperation</h2>
+
+<h3 id="toc_54">11.2.1 基础类</h3>
+
+<p class="md_block">
+    <span class="md_line">NSOperation是一个抽象类，不允许直接创建使用，它有两种类型和一种自定义类型来让我们使用</span>
+</p>
+
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">类</th>
+<th style="text-align: right">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">NSInvocationOperation</td>
+<td style="text-align: right">可以直接使用的类，基于应用的一个对象和selector来创建operation object。</td>
+</tr>
+<tr>
+<td style="text-align: left">NSBlockOperation</td>
+<td style="text-align: right">用来并发地执行一个或者多个block对象。operation object 使用“组”的语义来执行多个 block 对 象,所有相关的 block 都执行完成之后,operation object 才算完成。</td>
+</tr>
+<tr>
+<td style="text-align: left">NSOperation</td>
+<td style="text-align: right">基类，用来自定义字累的Operation。继承 NSOperation 可以完全控制 operation object 的实现,包括修改操作执 行和状态报告的方式。</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_55">11.2.2 执行</h3>
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">执行block有两种方式，一种是手动方式，一种是添加到队列</span>
+</p>
+
+
+<ol>
+<li>直接执行 <code>start</code> 方法，执行方法的线程与当前上下文线程有关</li>
+<li>将 <code>NSOperation</code> 对象添加到 <code>NSOperationQueue</code> 中，<strong>operation的执行thread由其所在的NSOperationQueue决定。</strong></li>
+</ol>
+
+<h3 id="toc_56">11.2.3 NSOperation 的特性</h3>
+
+<ol>
+<li>可以建立依赖关系</li>
+<li>支持可选的 completion block,在 operation 的主任务完成后调用。</li>
+<li>支持应用使用KVO通知来监控operation的执行状态</li>
+<li>支持operation优先级，从而影响相对的执行顺序</li>
+<li>支持取消，允许你中止正在执行的任务</li>
+<li>如果是直接调用operation的star方法 而不是添加到Queue则没有取消这个说法</li>
+</ol>
+
+<h3 id="toc_57">11.2.4 NSOperation 的  Completion Block</h3>
+
+<h4 id="toc_58">11.2.4.1 Completion Block 在哪个线程执行</h4>
+
+<p class="md_block">
+    <span class="md_line">这里分为两种情况一种是手动开始操作，另外一种是加入到队列中<br /></span>
+    <span class="md_line">1.手动调用start方法</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="bp">NSBlockOperation</span> <span class="o">*</span><span class="n">op</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current thread %@&quot;</span><span class="p">,[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
+    <span class="p">}];</span>
+    
+    <span class="p">[</span><span class="n">op</span> <span class="nl">setCompletionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Done thread %@&quot;</span><span class="p">,[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
+    <span class="p">}];</span>
+    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;iKingsly&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="p">[</span><span class="n">op</span> <span class="n">start</span><span class="p">];</span>
+ <span class="p">});</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">打印结果:</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">11</span> <span class="mi">20</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mf">09.114</span> <span class="n">NotificationDemo</span><span class="p">[</span><span class="mi">13855</span><span class="o">:</span><span class="mi">509575</span><span class="p">]</span> <span class="n">current</span> <span class="kr">thread</span> <span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7fdac2d0deb0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">)}</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">11</span> <span class="mi">20</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mf">09.115</span> <span class="n">NotificationDemo</span><span class="p">[</span><span class="mi">13855</span><span class="o">:</span><span class="mi">509576</span><span class="p">]</span> <span class="n">Done</span> <span class="kr">thread</span> <span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7fdac2e088c0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">number</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">)}</span>   
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">从上面的结果中我们可以看出，如果是手动执行operation，operation的执行线程和complection并不是相同的</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">2.在Operation Queue中的情况</span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="bp">NSBlockOperation</span> <span class="o">*</span><span class="n">op</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current thread %@&quot;</span><span class="p">,[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
+    <span class="p">}];</span>
+    
+    <span class="p">[</span><span class="n">op</span> <span class="nl">setCompletionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Done thread %@&quot;</span><span class="p">,[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
+    <span class="p">}];</span>
+    
+    <span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue1</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">queue1</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">op</span><span class="p">];</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">打印情况:</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">11</span> <span class="mi">20</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mf">14.830</span> <span class="n">NotificationDemo</span><span class="p">[</span><span class="mi">13951</span><span class="o">:</span><span class="mi">515106</span><span class="p">]</span> <span class="n">current</span> <span class="kr">thread</span> <span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7f8dd955c150</span><span class="o">&gt;</span><span class="p">{</span><span class="n">number</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">)}</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">11</span> <span class="mi">20</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mf">14.834</span> <span class="n">NotificationDemo</span><span class="p">[</span><span class="mi">13951</span><span class="o">:</span><span class="mi">515105</span><span class="p">]</span> <span class="n">Done</span> <span class="kr">thread</span> <span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7f8dd960e4b0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">number</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">)}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block md_has_block_below md_has_block_below_blockquote">
+    <span class="md_line">打印结果显示也是没有直接关系的，但是我看到一些博客中是这么写的</span>
+</p>
+
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">将NSOperation和其completion block割裂来看的做法显然是愚蠢的，也就是说，执行NSOperation的<del>completion block的线程和执行NSOperation的线程是一样的</del>，也都是由其所在的NSOperationQueue决定的。</span>
+</p>
+
+</blockquote>
+
+<p class="md_block">
+    <span class="md_line">这里这句话有歧义，completion block我们已经证明了跟NSOperation的执行线程没有直接的联系，都是由 <code>NSOperationQueue</code> 来决定的，这里我觉得作者的意思是跟NSOperation一样由NSOperationQueue决定，而不是和NSOperation的线程是一样的。</span>
+</p>
+
+
+<h4 id="toc_59">注意</h4>
+
+<p class="md_block">
+    <span class="md_line">如果需要有一些completion的操作需要在主线程中进行操作的，比如刷新UI之类的，需要自定义 NSOperation，在operation操作结束的时候，用类似 <code>dispatch_group_async</code> 操作来实现，在operation结束后，在主线程进行 complection 的回调操作。</span>
+</p>
+
+
+<h2 id="toc_60">11.3 NSOperation Queue vs GCD 的优势</h2>
+
+<ol>
+<li>
+<p class="md_block">
+    <span class="md_line">取消操作 : </span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">在GCD中，是没办法对添加到queue的task进行cancel操作的，但是NSOperation是可以的；值得一提的是，NSOperation取消操作只适用于哪些还没被执行的operation，如果operation正在running，则cancel操作是无效的。</span>
+</p></li>
+<li>
+<p class="md_block">
+    <span class="md_line">操作依赖 :</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">在GCD中，要对操作进行依赖处理不得不依靠dispatch_group或者其他的操作来实现，而NSOperation就能很轻易的实现这一点</span>
+</p></li>
+<li>
+<p class="md_block">
+    <span class="md_line">KVO :</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">对NSOperation，还可以对其某些属性进行KVO处理，这对于基于C-API的GCD是没办法做到的。</span>
+</p></li>
+<li>
+<p class="md_block">
+    <span class="md_line">优先级控制 : </span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">GCD的dispatch queue中的任务的执行顺序全部遵循FIFO，但是NSOperationQueue中对operation的调用更复杂一些，因为它每个operation都有优先级，所以用户可以通过优先级控制实现对任务更复杂的管理。</span>
+</p></li>
+</ol>
+
+<h1 id="toc_61">参考链接</h1>
+
+<p class="md_block">
+    <span class="md_line md_line_dom_embed"><a class="md_compiled" href="http://zhangbuhuai.com/using-gcd-part-2/">《GCD实践之二 -- 多用GCD，少用performSelector系列方法》</a><br /></span>
+    <span class="md_line md_line_dom_embed"><a class="md_compiled" href="https://github.com/ChenYilong/ParseSourceCodeStudy/blob/master/01_Parse的多线程处理思路/Parse的底层多线程处理思路.md">Parse源码浅析系列（一）---Parse的底层多线程处理思路：GCD高级用法</a><br /></span>
+    <span class="md_line md_line_dom_embed"><a class="md_compiled" href="http://zhangbuhuai.com/nsoperation-vs-gcd/">NSOperation v.s GCD</a></span>
+</p>
+    </div>
+</div>
+
+<!--mathjax-->
+
+</body>
+</html>

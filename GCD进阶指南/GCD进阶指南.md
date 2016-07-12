@@ -12,20 +12,21 @@
 
 ##2.1 Serial Dispatch Queue 串行队列
 serial dispatch queue中的block按照先进先出（FIFO）的顺序去执行，实际上为单线程执行。即每次从queue中取出一个task进行处理；用户可以根据需要创建任意多的serial dispatch queue，serial dispatch queue彼此之间是并发的；
-
-```
-dispatch_queue_t queue;
-queue = dispatch_queue_create("com.example.MySerialQueue", DISPATCH_QUEUE_SERIAL);
-```
+	
+	
+	dispatch_queue_t queue;
+	queue = dispatch_queue_create("com.example.MySerialQueue", DISPATCH_QUEUE_SERIAL);
+	
 
 ##2.2 Concurrent Dispatch Queue 并行队列
 Concurrent Dispatch Queue
 相对于Serial Dispatch Queue，Concurrent Dispatch Queue一次性并发执行一个或者多个task；和Serial Dispatch Queue不同，系统提供了四个global concurrent queue，使用dispatch_get_global_queue函数就可以获取这些global concurrent queue；
 和Serial Dispatch Queue一样，用户也可以根据需要自己定义concurrent queue；创建concurrent dispatch queue也使用dispatch_queue_create方法，所不同的是需要指定其第二个参数为DISPATCH_QUEUE_CONCURRENT即可：
 
+
 ```
-dispatch_queue_t queue;
-queue = dispatch_queue_create("com.example.MyConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+	dispatch_queue_t queue;
+	queue = dispatch_queue_create("com.example.MyConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
 
 ```
 
